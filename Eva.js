@@ -29,7 +29,7 @@ class Eva {
     // declarations
     if (exp[0] === "var") {
       const [_, name, value] = exp;
-      return env.define(name, value);
+      return env.define(name, this.eval(value));
     }
     // access
     if (isVariableName(exp)) {
@@ -55,7 +55,14 @@ function isVariableName(exp) {
 // ------------------------------
 // Tests:
 
-const eva = new Eva();
+const eva = new Eva(
+  new Environment({
+    null: null,
+    true: true,
+    false: false,
+    VERSION: "0.1",
+  })
+);
 
 assert.strictEqual(eva.eval(1), 1);
 assert.strictEqual(eva.eval('"ola"'), "ola");
@@ -64,5 +71,11 @@ assert.strictEqual(eva.eval(["+", ["+", 10, 5], 8]), 23);
 assert.strictEqual(eva.eval(["*", 10, 5]), 50);
 assert.strictEqual(eva.eval(["var", "x", 15]), 15);
 assert.strictEqual(eva.eval("x"), 15);
+assert.strictEqual(eva.eval("VERSION"), "0.1");
+assert.strictEqual(eva.eval("true"), true);
+
+assert.strictEqual(eva.eval(["var", "a", ["+", 10, 5]]), 15);
+
+assert.strictEqual(eva.eval(["var", "isUser", "true"]), true);
 
 console.log("All assertions passed!");
