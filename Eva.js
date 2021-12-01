@@ -2,6 +2,7 @@ const assert = require("assert");
 
 class Eva {
   eval(exp) {
+    //literals
     if (isNumber(exp)) {
       return exp;
     }
@@ -10,6 +11,7 @@ class Eva {
       return exp.slice(1, -1);
     }
 
+    // operators
     if (exp[0] === "+") {
       return this.eval(exp[1]) + this.eval(exp[2]);
     }
@@ -18,7 +20,11 @@ class Eva {
       return this.eval(exp[1]) * this.eval(exp[2]);
     }
 
-    throw "Unimplemented";
+    // variables
+    if (exp[0] === "var") {
+    }
+
+    throw `Unimplemented: ${JSON.stringify(exp)}`;
   }
 }
 
@@ -40,5 +46,6 @@ assert.strictEqual(eva.eval('"ola"'), "ola");
 //assert.strictEqual(eva.eval(["+", 10, 5]), 15);
 assert.strictEqual(eva.eval(["+", ["+", 10, 5], 8]), 23);
 assert.strictEqual(eva.eval(["*", 10, 5]), 50);
+assert.strictEqual(eva.eval(["var", "x", 15]), 15);
 
 console.log("All assertions passed!");
