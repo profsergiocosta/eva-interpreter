@@ -25,6 +25,11 @@ class Eva {
       return this.eval(exp[1]) * this.eval(exp[2]);
     }
 
+    // block
+    if (exp[0] === "begin") {
+      return this._evalBlock(exp, env);
+    }
+
     // variables
     // declarations
     if (exp[0] === "var") {
@@ -37,6 +42,15 @@ class Eva {
     }
 
     throw `Unimplemented: ${JSON.stringify(exp)}`;
+  }
+
+  _evalBlock(block, env) {
+    let result;
+    const [_tag, ...expressions] = block;
+    expressions.forEach((exp) => {
+      result = this.eval(exp, env);
+    });
+    return result;
   }
 }
 
@@ -77,5 +91,17 @@ assert.strictEqual(eva.eval("true"), true);
 assert.strictEqual(eva.eval(["var", "a", ["+", 10, 5]]), 15);
 
 assert.strictEqual(eva.eval(["var", "isUser", "true"]), true);
+
+assert.strictEqual(
+  eva.eval([
+    "begin",
+
+    ["var", "x", 20],
+    ["var", "y", 10],
+    ["+", ["*", "x", "y"], 30],
+  ]),
+
+  230
+);
 
 console.log("All assertions passed!");
