@@ -10,6 +10,14 @@ class Eva {
       return exp.slice(1, -1);
     }
 
+    if (exp[0] === "+") {
+      return this.eval(exp[1]) + this.eval(exp[2]);
+    }
+
+    if (exp[0] === "*") {
+      return this.eval(exp[1]) * this.eval(exp[2]);
+    }
+
     throw "Unimplemented";
   }
 }
@@ -29,5 +37,8 @@ const eva = new Eva();
 
 assert.strictEqual(eva.eval(1), 1);
 assert.strictEqual(eva.eval('"ola"'), "ola");
+//assert.strictEqual(eva.eval(["+", 10, 5]), 15);
+assert.strictEqual(eva.eval(["+", ["+", 10, 5], 8]), 23);
+assert.strictEqual(eva.eval(["*", 10, 5]), 50);
 
 console.log("All assertions passed!");
