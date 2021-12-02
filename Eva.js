@@ -18,23 +18,24 @@ class Eva {
 
     // operators
     if (exp[0] === "+") {
-      return this.eval(exp[1]) + this.eval(exp[2]);
+      return this.eval(exp[1], env) + this.eval(exp[2], env);
     }
 
     if (exp[0] === "*") {
-      return this.eval(exp[1]) * this.eval(exp[2]);
+      return this.eval(exp[1], env) * this.eval(exp[2], env);
     }
 
     // block
     if (exp[0] === "begin") {
-      return this._evalBlock(exp, env);
+      const blockEnv = new Environment({}, env);
+      return this._evalBlock(exp, blockEnv);
     }
 
     // variables
     // declarations
     if (exp[0] === "var") {
       const [_, name, value] = exp;
-      return env.define(name, this.eval(value));
+      return env.define(name, this.eval(value, env));
     }
     // access
     if (isVariableName(exp)) {
@@ -93,6 +94,12 @@ assert.strictEqual(eva.eval(["var", "a", ["+", 10, 5]]), 15);
 assert.strictEqual(eva.eval(["var", "isUser", "true"]), true);
 
 assert.strictEqual(
+  eva.eval(["begin", ["var", "x", 20], ["+", "x", 65]]),
+
+  85
+);
+
+assert.strictEqual(
   eva.eval([
     "begin",
 
@@ -102,6 +109,35 @@ assert.strictEqual(
   ]),
 
   230
+);
+
+assert.strictEqual(
+  eva.eval([
+    "begin",
+
+    ["var", "x", 10],
+
+    ["begin", ["var", "x", 20], "x"],
+
+    ["var", "y", 20],
+    ["+", ["*", "x", "y"], 30],
+  ]),
+
+  230
+);
+
+assert.strictEqual(
+  eva.eval([
+    "begin",
+
+    ["var", "value", 10],
+    ["var", "result", ["begin", ["var", "x", ["+", 40, "value"]], "x"]],
+
+    //["var", "result", ["begin", ["var", "x", ["+", "value", 10]], "x"]],
+    "result",
+  ]),
+
+  50
 );
 
 console.log("All assertions passed!");
