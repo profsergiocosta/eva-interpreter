@@ -37,6 +37,14 @@ class Eva {
       const [_, name, value] = exp;
       return env.define(name, this.eval(value, env));
     }
+
+    // update
+
+    if (exp[0] === "set") {
+      const [_, name, value] = exp;
+      return env.assign(name, this.eval(value, env));
+    }
+
     // access
     if (isVariableName(exp)) {
       return env.lookup(exp);
@@ -138,6 +146,20 @@ assert.strictEqual(
   ]),
 
   50
+);
+
+assert.strictEqual(
+  eva.eval([
+    "begin",
+
+    ["var", "data", 10],
+    ["begin", ["set", "data", 100]],
+
+    //["var", "result", ["begin", ["var", "x", ["+", "value", 10]], "x"]],
+    "data",
+  ]),
+
+  100
 );
 
 console.log("All assertions passed!");
