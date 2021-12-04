@@ -2,7 +2,7 @@ const tests = [
   require("./self-eval-tests.js"),
   require("./math-eval-tests.js"),
   require("./variable-eval-tests.js"),
-  require("./block-eval-tests.js"),
+  require("./block-tests.js"),
   require("./if-test.js"),
   require("./while-test.js"),
 ];
