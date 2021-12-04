@@ -1,8 +1,5 @@
 (begin
 
-
-
 (def dobro (x) (* 2 x))
-(print (dobro (* 3 4)))
-
+(print (dobro 5))
 )

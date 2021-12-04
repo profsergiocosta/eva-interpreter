@@ -66,15 +66,9 @@ class Eva {
     // Syntactic sugar for: (var square (lambda (x) (* x x)))
 
     if (exp[0] === "def") {
-      const [_tag, name, params, body] = exp;
-
-      const fn = {
-        params,
-        body,
-        env, // Closure
-      };
-
-      return env.define(name, fn);
+      const [_tag1, name, params, body] = exp;
+      const varExp = ["var", name, ["lambda", params, body]];
+      return this.eval(varExp, env);
     }
 
     if (exp[0] === "lambda") {
