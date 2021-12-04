@@ -7,6 +7,7 @@ const tests = [
   require("./while-test.js"),
   require("./buit-in-function-test.js"),
   require("./user-defined-function.js"),
+  require("./lambda-test.js"),
 ];
 
 const Eva = require("../Eva");

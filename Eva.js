@@ -77,6 +77,16 @@ class Eva {
       return env.define(name, fn);
     }
 
+    if (exp[0] === "lambda") {
+      const [_tag, params, body] = exp;
+
+      return {
+        params,
+        body,
+        env, // Closure
+      };
+    }
+
     // --------------------------------------------
     // Function calls:
     //
