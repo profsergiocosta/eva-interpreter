@@ -6,6 +6,7 @@ const tests = [
   require("./if-test.js"),
   require("./while-test.js"),
   require("./buit-in-function-test.js"),
+  require("./user-defined-function.js"),
 ];
 
 const Eva = require("../Eva");
