@@ -5,8 +5,6 @@ module.exports = (eva) => {
   test(
     eva,
     `
-    (begin
-    
   (class Point null
       (begin
 
@@ -27,7 +25,7 @@ module.exports = (eva) => {
     (var p (new Point 10 20))
 
  ((prop p calc) p)
-)            
+           
   `,
     30
   );

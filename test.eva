@@ -1,5 +1,20 @@
 (begin
 
-(def dobro (x) (* 2 x))
-(print (dobro 5))
+(class Point null
+
+(begin
+    (def constructor (self)
+        (begin
+            (set (prop self x) 10)
+        )
+    
+    )
+
+)
+
+)
+
+(var p (new Point))
+(set (prop p y) 30)
+(print (prop p x))
 )

@@ -9,6 +9,10 @@ class Eva {
     this._transformer = new Transformer();
   }
 
+  evalGlobal(exp) {
+    return this._evalBody(exp, this.global);
+  }
+
   eval(exp, env = this.global) {
     //literals
     if (this._isNumber(exp)) {
