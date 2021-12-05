@@ -12,6 +12,7 @@ const tests = [
   require("./for-test.js"),
   require("./class-test.js"),
   require("./module-test.js"),
+  require("./import-test.js"),
 ];
 
 const Eva = require("../Eva");

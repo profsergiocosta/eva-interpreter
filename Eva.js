@@ -2,6 +2,9 @@ const assert = require("assert");
 const { eventNames } = require("process");
 const Environment = require("./Environment");
 const Transformer = require("./transform/Transformer");
+const evaParser = require("./parser/evaParser");
+
+const fs = require("fs");
 
 class Eva {
   constructor(global = GlobalEnvironment) {
@@ -219,7 +222,17 @@ class Eva {
     // (import (export1, export2, ...) <name>)
 
     if (exp[0] === "import") {
-      // Implement here: see Lecture 17
+      const [_tag, name] = exp;
+
+      const moduleSrc = fs.readFileSync(
+        `${__dirname}/modules/${name}.eva`,
+        "utf-8"
+      );
+      const body = evaParser.parse(`(begin ${moduleSrc})`);
+
+      const moduleExp = ["module", name, body];
+
+      return this.eval(moduleExp, this.global);
     }
 
     // --------------------------------------------
