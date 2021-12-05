@@ -8,6 +8,8 @@ const tests = [
   require("./buit-in-function-test.js"),
   require("./user-defined-function.js"),
   require("./lambda-test.js"),
+  require("./switch-test.js"),
+  require("./for-test.js"),
 ];
 
 const Eva = require("../Eva");
