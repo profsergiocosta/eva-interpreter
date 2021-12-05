@@ -10,8 +10,8 @@ const tests = [
   require("./lambda-test.js"),
   require("./switch-test.js"),
   require("./for-test.js"),
-
   require("./class-test.js"),
+  require("./module-test.js"),
 ];
 
 const Eva = require("../Eva");

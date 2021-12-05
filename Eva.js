@@ -207,7 +207,11 @@ class Eva {
     // Module declaration: (module <name> <body>)
 
     if (exp[0] === "module") {
-      // Implement here: see Lecture 17
+      const [_tag, name, body] = exp;
+      const moduleEnv = new Environment({}, env);
+      this._evalBody(body, moduleEnv);
+
+      return env.define(name, moduleEnv);
     }
 
     // --------------------------------------------
