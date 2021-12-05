@@ -17,7 +17,7 @@ const Eva = require("../Eva");
 
 function evalGlobal(src, eva) {
   const exp = evaParser.parse(`(begin ${src})`);
-  eva.eval(exp);
+  return eva.evalGlobal(exp);
 }
 
 function main(argv) {
