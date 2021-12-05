@@ -35,8 +35,15 @@ class Eva {
     // update
 
     if (exp[0] === "set") {
-      const [_, name, value] = exp;
-      return env.assign(name, this.eval(value, env));
+      const [_, ref, value] = exp;
+
+      if (ref[0] === "prop") {
+        const [_tag, instance, propName] = ref;
+        const instanceEnv = this.eval(instance, env);
+
+        return instanceEnv.define(propName, this.eval(value, env));
+      }
+      return env.assign(ref, this.eval(value, env));
     }
 
     // access
@@ -150,7 +157,9 @@ class Eva {
 
       this._evalBody(body, classEnv);
 
-      return env.define(name, classEnv);
+      const cl = env.define(name, classEnv);
+
+      return cl;
     }
 
     // --------------------------------------------
@@ -164,14 +173,28 @@ class Eva {
     // Class instantiation: (new <Class> <Arguments>...)
 
     if (exp[0] === "new") {
-      // Implement here: see Lecture 15
+      const classEnv = this.eval(exp[1], env);
+
+      const instanceEnv = new Environment({}, classEnv);
+
+      const args = exp.slice(2).map((arg) => this.eval(arg, env));
+
+      this.__callUserDefineFunction(classEnv.lookup("constructor"), [
+        instanceEnv,
+        ...args,
+      ]);
+
+      return instanceEnv;
     }
 
     // --------------------------------------------
     // Property access: (prop <instance> <name>)
 
     if (exp[0] === "prop") {
-      // Implement here: see Lecture 15
+      const [_tag, instance, name] = exp;
+      const intanceEnv = this.eval(instance, env);
+
+      return intanceEnv.lookup(name);
     }
 
     // --------------------------------------------
@@ -208,19 +231,22 @@ class Eva {
       }
 
       // 2 user-definied
-
-      const activationRecord = {};
-
-      fn.params.forEach((param, index) => {
-        activationRecord[param] = args[index];
-      });
-
-      const activationEnv = new Environment(activationRecord, fn.env);
-
-      return this._evalBody(fn.body, activationEnv);
+      return this.__callUserDefineFunction(fn, args);
     }
 
     throw `Unimplemented: ${JSON.stringify(exp)}`;
+  }
+
+  __callUserDefineFunction(fn, args) {
+    const activationRecord = {};
+
+    fn.params.forEach((param, index) => {
+      activationRecord[param] = args[index];
+    });
+
+    const activationEnv = new Environment(activationRecord, fn.env);
+
+    return this._evalBody(fn.body, activationEnv);
   }
 
   _evalBody(body, env) {

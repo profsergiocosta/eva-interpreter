@@ -26,8 +26,7 @@ module.exports = (eva) => {
 
     (var p (new Point 10 20))
 
-    ((prop p calc) p)
-
+ ((prop p calc) p)
 )            
   `,
     30
