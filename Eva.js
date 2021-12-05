@@ -139,6 +139,57 @@ class Eva {
     }
 
     // --------------------------------------------
+    // Class declaration: (class <Name> <Parent> <Body>)
+
+    if (exp[0] === "class") {
+      const [_tag, name, parent, body] = exp;
+
+      const parentEnv = this.eval(parent) || env;
+
+      const classEnv = new Environment({}, parentEnv);
+
+      this._evalBody(body, classEnv);
+
+      return env.define(name, classEnv);
+    }
+
+    // --------------------------------------------
+    // Super expressions: (super <ClassName>)
+
+    if (exp[0] === "super") {
+      // Implement here: see Lecture 16
+    }
+
+    // --------------------------------------------
+    // Class instantiation: (new <Class> <Arguments>...)
+
+    if (exp[0] === "new") {
+      // Implement here: see Lecture 15
+    }
+
+    // --------------------------------------------
+    // Property access: (prop <instance> <name>)
+
+    if (exp[0] === "prop") {
+      // Implement here: see Lecture 15
+    }
+
+    // --------------------------------------------
+    // Module declaration: (module <name> <body>)
+
+    if (exp[0] === "module") {
+      // Implement here: see Lecture 17
+    }
+
+    // --------------------------------------------
+    // Module import: (import <name>)
+    // (import (export1, export2, ...) <name>)
+
+    if (exp[0] === "import") {
+      // Implement here: see Lecture 17
+    }
+
+    // --------------------------------------------
     // Function calls:
     //
     // (print "Hello World")
