@@ -170,7 +170,9 @@ class Eva {
     // Super expressions: (super <ClassName>)
 
     if (exp[0] === "super") {
-      // Implement here: see Lecture 16
+      const [_tag, className] = exp;
+
+      return this.eval(className, env).parent;
     }
 
     // --------------------------------------------
